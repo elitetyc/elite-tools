@@ -1,26 +1,20 @@
-import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
-import * as historyClipboard from "./db/history-clipboard";
+import { Database } from "sqlite3";
+import * as historyClipboard from "../pages/history-clipboard/dao";
 class DatabaseManager{
   public static db: Database
 
   constructor(private dbFilePath: string) {}
 
-  async connect(): Promise<Database> {
-    return  open({
-      filename: this.dbFilePath,
-      driver: sqlite3.Database
-    })
+  connect(){
+    DatabaseManager.db = new Database(this.dbFilePath)
   }
   initTables(){
     // 历史剪切板
     historyClipboard.initTable()
   }
   public init(){
-    this.connect().then(db => {
-      DatabaseManager.db = db
-      this.initTables()
-    })
+    this.connect()
+    this.initTables()
   }
 
 

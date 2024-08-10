@@ -1,18 +1,18 @@
-import { app, BrowserWindow, nativeImage } from "electron";
-// import iconIco from '../../../resources/tray-old-old-icon.png?asset'
+import { app, nativeImage,Tray, Menu } from "electron";
 import iconIco from '../../../resources/iconTemplate@2x.png?asset'
-import { createWindow } from "../index";
 import { Context } from "../ipc/context";
-const { Tray, Menu } = require('electron')
+import { HistoryClipboardManager } from "../pages/history-clipboard/view";
+import { createWindow } from "../index";
 
 export default class TrayMenu {
   // 初始化托盘菜单
   public static init(): void {
-    var icon = nativeImage.createFromPath(iconIco);
+    const icon = nativeImage.createFromPath(iconIco);
     icon.setTemplateImage(true)
-    let tray = new Tray(icon)
+    const tray = new Tray(icon)
     const contextMenu = Menu.buildFromTemplate([
       { label: '打开主界面',click: openMainWindow},
+      { label: '打开剪切板历史',click: HistoryClipboardManager.openHistoryClipBoardWindow},
       { label: '退出',click: quit},
     ])
 
@@ -22,10 +22,13 @@ export default class TrayMenu {
   }
 }
 
-function openMainWindow(): void {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow(true)
-  Context.mainWindow.show()
+export function openMainWindow(): void {
+  if (!Context.mainWindow||
+    (Context.mainWindow&&Context.mainWindow.isDestroyed())) {
+    createWindow()
+  }
 }
+
 
 function quit():void{
   app.quit()

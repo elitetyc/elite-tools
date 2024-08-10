@@ -24,10 +24,10 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "electron-updater": "^6.1.7",
-    "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "tdesign-icons-vue-next": "^0.2.4",
-    "tdesign-vue-next": "^1.9.8"
+    "tdesign-vue-next": "^1.9.8",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",

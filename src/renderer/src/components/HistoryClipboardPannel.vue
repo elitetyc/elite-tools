@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
+import { SearchIcon } from "tdesign-icons-vue-next";
 
 const searchInput = ref();
 const historyList = ref([]);
@@ -29,7 +30,7 @@ watch(searchInput, searchInputChange);
 <template>
   <t-input v-model="searchInput" placeholder="搜索" clearable autofocus>
     <template #suffixIcon>
-      <t-icon name="search" :style="{ cursor: 'pointer' }" />
+      <SearchIcon :style="{ cursor: 'pointer' }" />
     </template>
   </t-input>
 

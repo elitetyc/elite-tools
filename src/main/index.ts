@@ -2,8 +2,8 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import * as HotKey from "./ipc/hotkey";
-import * as Clipboard from "./ipc/clipboard";
+import * as HotKey from "./pages/history-clipboard/hotkey";
+import * as Clipboard from "./pages/history-clipboard/clipboard";
 import DatabaseManager from "./ipc/database";
 
 import * as Context from "./ipc/context"
@@ -18,28 +18,25 @@ new DatabaseManager(Context.Context.getDBPath()).init()
 app.dock.setIcon(icon)
 
 
-export function createWindow(visibleOnFullScreen:boolean): BrowserWindow {
+export function createWindow(): BrowserWindow {
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 500,
-    height: 500,
-    show: false,
+    width: 800,
+    height: 550,
     titleBarStyle: 'hidden',
-    minimizable:false,
+    icon:icon,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
 
-  // 确保窗口在所有桌面和全屏应用上显示
-  // mainWindow.setAlwaysOnTop(true, 'screen-saver');
-  mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: visibleOnFullScreen });
-
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    // 只要主窗口展示，就设置dock栏目图标
   })
 
 
@@ -51,13 +48,15 @@ export function createWindow(visibleOnFullScreen:boolean): BrowserWindow {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']+"#/main")
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    // mainWindow.loadFile(join(__dirname, '../renderer/index.html#/main'))
+    mainWindow.loadURL(`file://${join(__dirname, '../renderer/index.html#/main')}`)
   }
 
   Context.Context.mainWindow = mainWindow
-
+  app.dock.show()
+  app.dock.setIcon(icon)
   return mainWindow
 }
 
@@ -75,12 +74,12 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  createWindow(false)
+  createWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow(false)
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 
   // 初始化快捷键
@@ -99,6 +98,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+  // 如果是mac，关闭所有窗口时，隐藏dock图标
+  app.dock.hide()
 })
 
 // In this file you can include the rest of your app"s specific main process
