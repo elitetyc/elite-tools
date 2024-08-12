@@ -1,5 +1,6 @@
 import { Database } from "sqlite3";
 import * as historyClipboard from "../pages/history-clipboard/dao";
+import { Context } from "./context";
 class DatabaseManager{
   public static db: Database
 
@@ -10,7 +11,16 @@ class DatabaseManager{
   }
   initTables(){
     // 历史剪切板
-    historyClipboard.initTable()
+    Promise.all<boolean>([
+      ...historyClipboard.initTable()
+    ])
+      .then(()=>{
+        console.log("数据库初始化，处理成功")
+        // 所有的都成功了，
+        Context.dbInitSuccess = true
+      }).catch((err)=>{
+        console.log(err)
+    })
   }
   public init(){
     this.connect()

@@ -5,7 +5,7 @@ import { Setting1Icon } from "tdesign-icons-vue-next";
 
 <template>
   <div class="card-bg" >
-    <div style="display: flex;justify-content: space-between;padding: 10px">
+    <div class="header-drag" style="display: flex;justify-content: space-between;padding: 10px">
       <span></span>
       <Setting1Icon size="18px" style="cursor: pointer;color: white" />
     </div>

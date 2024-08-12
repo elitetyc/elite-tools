@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
-import { SearchIcon } from "tdesign-icons-vue-next";
+import { FileAttachmentIcon, SearchIcon, TextboxIcon,ImageIcon } from "tdesign-icons-vue-next";
+import {HistoryClipboardType} from "../context";
 
 const searchInput = ref();
 const historyList = ref([]);
@@ -38,22 +39,26 @@ watch(searchInput, searchInputChange);
     <t-popup v-for="(item,index) in computedHistoryList" placement="bottom">
       <t-list-item @click="historyItemClick(item)">
         <t-row style="width: 100%">
-          <t-col :span="10" style="overflow: hidden;text-align: start;font-weight: bold">
-            <span v-if="item.type===1" class="nowrap-with-ellipsis">{{ item.content }}</span>
+          <t-col :span="1">
+            <TextboxIcon size="30" style="color: #329bbf" v-if="item.type===HistoryClipboardType.text"/>
+            <ImageIcon size="30" style="color: #34ed70" v-if="item.type===HistoryClipboardType.img"/>
+            <FileAttachmentIcon size="30" style="color: #ed7c53" v-if="item.type===HistoryClipboardType.file"/>
+          </t-col>
+          <t-col :span="11" style="overflow: hidden;text-align: start;font-weight: bold">
+            <span v-if="item.type===HistoryClipboardType.text
+            ||item.type===HistoryClipboardType.file" class="nowrap-with-ellipsis">{{ item.content }}</span>
             <t-image
-              v-else-if="item.type===2"
+              v-else-if="item.type===HistoryClipboardType.img"
               :src="item.content"
               :style="{ width: '60px', height: '60px' }"
             />
           </t-col>
-          <t-col :span="2">
-
-          </t-col>
         </t-row>
       </t-list-item>
       <template #content>
-        <div style="font-weight: bold" v-if="item.type===1">{{ item.content }}</div>
-        <div v-if="item.type===2">
+        <div style="font-weight: bold" v-if="item.type===HistoryClipboardType.text
+        ||item.type===HistoryClipboardType.file">{{ item.content }}</div>
+        <div v-if="item.type===HistoryClipboardType.file">
           <t-image
             fit="contain"
             :src="item.content"

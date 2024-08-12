@@ -5,6 +5,11 @@ const fs = require('fs');
 
 // 获取当前用户主目录
 export class Context {
+
+  public static isMac = process.platform==='darwin'
+  public static isWin = process.platform==='win32'
+  public static isLinux = process.platform==='linux'
+  public static dbInitSuccess = false
   // 主窗口弹窗
   public static mainWindow:BrowserWindow
 

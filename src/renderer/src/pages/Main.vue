@@ -33,7 +33,7 @@ import {  InfoCircleIcon, PasteIcon, ServerIcon } from "tdesign-icons-vue-next";
       </t-menu>
     </t-aside>
     <t-layout style="background: transparent">
-      <t-header height="30px" style="background: transparent">header</t-header>
+      <t-header height="30px" style="background: transparent" class="header-drag">header</t-header>
       <t-layout style="background: transparent">
         <t-content style="background: transparent">Content</t-content>
         <t-footer style="background: transparent">Footer</t-footer>
