@@ -2,4 +2,5 @@
 
 .header-drag{
   -webkit-app-region: drag;
+  height: 30px;
 }

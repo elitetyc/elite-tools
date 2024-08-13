@@ -6,6 +6,7 @@ import { HistoryClipboard, HistoryClipboardType } from "./dao";
 import * as fs from "node:fs";
 import { RunResult } from "sqlite3";
 
+
 let lastClipboardInfoTxtMd5 = "";
 let lastClipboardInfoImgMd5 = "";
 let lastClipboardInfoFileMd5 = "";
@@ -13,6 +14,7 @@ let lastClipboardInfoFileMd5 = "";
 let newClearHistoryClipboardIntervalId: NodeJS.Timeout;
 
 export function init() {
+
   setInterval(() => {
     if (Context.dbInitSuccess){
       listenText();
@@ -24,12 +26,12 @@ export function init() {
   clearHistoryClipboard();
 
   // 监听输入数据变化
-  Context.ipcMain.on(Context.CLIPBOARD_SEARCH_INPUT_CHANGE, (_, input) => {
+  Context.ipcMain.on(Context.historyClipBoarEvent.CLIPBOARD_SEARCH_INPUT_CHANGE, (_, input) => {
     historyClipboard.sendData(input);
   });
 
   // 监听点击某个item
-  Context.ipcMain.on(Context.CLIPBOARD_ITEM_CLICK, (_, input) => {
+  Context.ipcMain.on(Context.historyClipBoarEvent.CLIPBOARD_ITEM_CLICK, (_, input) => {
     const clipBoard: historyClipboard.HistoryClipboard = JSON.parse(input);
     // 更新时间，让其靠前
     historyClipboard.updateOne(clipBoard, (err) => {

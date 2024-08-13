@@ -98,7 +98,7 @@ export function sendData(key?: string) {
   queryAll((err, rows) => {
     if (err) throw err;
     if (Context.historyClipBoardWindow&&!Context.historyClipBoardWindow.isDestroyed()) {
-      Context.historyClipBoardWindow.webContents.send(Context.HISTORY_CLIPBOARD_LIST, rows);
+      Context.historyClipBoardWindow.webContents.send(Context.historyClipBoarEvent.HISTORY_CLIPBOARD_LIST, rows);
     }
   }, key);
 }

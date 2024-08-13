@@ -1,8 +1,19 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { HistoryClipboardType } from "../main/pages/history-clipboard/dao";
+import { HotKeyConfigType } from "../main/hotkey/dao";
+import { Context } from "../main/ipc/context";
+import keyMapMapping from '../main/hotkey/keymap';
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  HistoryClipboardType,
+  HotKeyConfigType,
+  mainEvent:Context.mainEvent,
+  historyClipBoarEvent:Context.historyClipBoarEvent,
+  keyMapMapping
+}
+
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

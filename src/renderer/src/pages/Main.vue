@@ -1,6 +1,13 @@
 <script setup lang="ts">
 
 import {  InfoCircleIcon, PasteIcon, ServerIcon } from "tdesign-icons-vue-next";
+import { onMounted } from "vue";
+import router from "../router";
+
+onMounted(()=>{
+  // 默认打开
+  router.push("/main/historyClipboardSetting")
+})
 </script>
 
 <template>
@@ -16,7 +23,7 @@ import {  InfoCircleIcon, PasteIcon, ServerIcon } from "tdesign-icons-vue-next";
           <template #icon>
             <PasteIcon />
           </template>
-          剪切板历史
+          <router-link to="/main/historyClipboardSetting">剪切板历史</router-link>
         </t-menu-item>
         <t-menu-item value="resource">
           <template #icon>
@@ -33,10 +40,12 @@ import {  InfoCircleIcon, PasteIcon, ServerIcon } from "tdesign-icons-vue-next";
       </t-menu>
     </t-aside>
     <t-layout style="background: transparent">
-      <t-header height="30px" style="background: transparent" class="header-drag">header</t-header>
+      <t-header height="30px" style="background: transparent" class="header-drag"></t-header>
       <t-layout style="background: transparent">
-        <t-content style="background: transparent">Content</t-content>
-        <t-footer style="background: transparent">Footer</t-footer>
+        <t-content style="background: transparent">
+          <router-view></router-view>
+        </t-content>
+        <t-footer style="background: transparent"></t-footer>
       </t-layout>
     </t-layout>
   </t-layout>

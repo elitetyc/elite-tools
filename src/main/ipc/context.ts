@@ -1,6 +1,7 @@
 import * as os from "os";
 import * as path from "node:path";
 import { BrowserWindow,ipcMain } from "electron";
+import { Database } from "sqlite3";
 const fs = require('fs');
 
 // 获取当前用户主目录
@@ -12,6 +13,11 @@ export class Context {
   public static dbInitSuccess = false
   // 主窗口弹窗
   public static mainWindow:BrowserWindow
+  public static mainEvent = {
+    CLIPBOARD_CONFIG_LIST : "clipboard_config_list",
+    GET_CLIPBOARD_CONFIG_LIST:"get_clipboard_config_list",
+    HOT_KEY_SETTING_CHANGE:"hot_key_setting_change"
+  }
 
   public static ipcMain = ipcMain
   public static homeDirectory = os.homedir();
@@ -20,9 +26,11 @@ export class Context {
 
 // 剪切板历史弹窗
   public static historyClipBoardWindow:BrowserWindow
-  public static HISTORY_CLIPBOARD_LIST = "historyClipboardList";
-  public static CLIPBOARD_SEARCH_INPUT_CHANGE = "clipboardSearchInputChange";
-  public static CLIPBOARD_ITEM_CLICK = "clipboardItemClick";
+  public static historyClipBoarEvent={
+    HISTORY_CLIPBOARD_LIST : "historyClipboardList",
+    CLIPBOARD_SEARCH_INPUT_CHANGE : "clipboardSearchInputChange",
+    CLIPBOARD_ITEM_CLICK : "clipboardItemClick",
+  }
   public static CLIPBOARD_KEEP_HOUR  = 24;
 
   public static getDBPath(){
@@ -43,3 +51,8 @@ export function init(){
   }
 }
 
+// 数据库初始化结果
+export interface DBInitCallBack{
+  success(db :Database)
+  fail(err)
+}

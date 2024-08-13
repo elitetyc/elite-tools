@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import HistoryClipboardPannel from "../components/HistoryClipboardPannel.vue";
-import { Setting1Icon } from "tdesign-icons-vue-next";
 </script>
 
 <template>
   <div class="card-bg" >
-    <div class="header-drag" style="display: flex;justify-content: space-between;padding: 10px">
-      <span></span>
-      <Setting1Icon size="18px" style="cursor: pointer;color: white" />
+    <div class="header-drag" >
     </div>
     <div style="padding: 10px;overflow: scroll;flex: 1">
       <HistoryClipboardPannel></HistoryClipboardPannel>

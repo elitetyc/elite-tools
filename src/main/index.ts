@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import * as HotKey from "./pages/history-clipboard/hotkey";
+import * as HotKey from "./hotkey/hotkey";
 import * as Clipboard from "./pages/history-clipboard/clipboard";
 import DatabaseManager from "./ipc/database";
 

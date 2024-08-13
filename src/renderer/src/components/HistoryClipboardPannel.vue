@@ -1,27 +1,27 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { FileAttachmentIcon, SearchIcon, TextboxIcon,ImageIcon } from "tdesign-icons-vue-next";
-import {HistoryClipboardType} from "../context";
-
+const HistoryClipboardType = window.api.HistoryClipboardType
+const historyClipboardEvent = window.api.historyClipBoarEvent
 const searchInput = ref();
 const historyList = ref([]);
 
 const searchInputChange = (value) => {
-  window.electron.ipcRenderer.send("clipboardSearchInputChange", value);
+  window.electron.ipcRenderer.send(historyClipboardEvent.CLIPBOARD_SEARCH_INPUT_CHANGE, value);
 };
 
 const computedHistoryList = computed(() => {
   return historyList.value;
 });
 const historyItemClick = (item) => {
-  window.electron.ipcRenderer.send("clipboardItemClick", JSON.stringify(item));
+  window.electron.ipcRenderer.send(historyClipboardEvent.CLIPBOARD_ITEM_CLICK, JSON.stringify(item));
   // 清空数据
   searchInput.value = "";
 };
 onMounted(() => {
   // 刚挂载的时候，就请求一次数据
   searchInputChange("")
-  window.electron.ipcRenderer.on("historyClipboardList", (event, data) => {
+  window.electron.ipcRenderer.on(historyClipboardEvent.HISTORY_CLIPBOARD_LIST, (event, data) => {
     historyList.value = data
   })
 })

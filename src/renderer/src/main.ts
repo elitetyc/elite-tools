@@ -10,3 +10,8 @@ createApp(App)
   .use(TDesign)
   .use(router)
   .mount("#app");
+
+// 设置暗色模式
+document.documentElement.setAttribute('theme-mode', 'dark');
+// 重置为浅色模式
+// document.documentElement.removeAttribute('theme-mode');
