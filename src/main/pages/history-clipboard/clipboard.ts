@@ -146,7 +146,7 @@ function listenFile() {
 }
 function listenImg() {
   const img = clipboard.readImage();
-  if (img) {
+  if (!img.isEmpty()) {
     const url = img.toDataURL();
     const md5 = Util.md5Encode(url);
     if (md5 !== lastClipboardInfoImgMd5) {
