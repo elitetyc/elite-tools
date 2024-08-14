@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch,onUnmounted } from "vue";
 import { FileAttachmentIcon, SearchIcon, TextboxIcon,ImageIcon } from "tdesign-icons-vue-next";
 const HistoryClipboardType = window.api.HistoryClipboardType
 const historyClipboardEvent = window.api.historyClipBoarEvent
@@ -26,6 +26,10 @@ onMounted(() => {
   })
 })
 watch(searchInput, searchInputChange);
+
+onUnmounted(()=>{
+  window.electron.ipcRenderer.removeAllListeners()
+})
 </script>
 
 <template>

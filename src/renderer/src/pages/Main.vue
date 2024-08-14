@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {  InfoCircleIcon, PasteIcon, ServerIcon } from "tdesign-icons-vue-next";
+import {  InfoCircleIcon, PasteIcon, ServerIcon,VideoIcon } from "tdesign-icons-vue-next";
 import { onMounted } from "vue";
 import router from "../router";
 
@@ -8,30 +8,36 @@ onMounted(()=>{
   // 默认打开
   router.push("/main/historyClipboardSetting")
 })
+
+const changePage= (path)=>{
+  router.push(path)
+}
+
 </script>
 
 <template>
   <t-layout class="main-bg">
     <t-aside width="200px" style="background: transparent">
       <t-menu
+        @change="changePage"
         style="padding-top: 30px;opacity: 0.9"
         theme="dark"
-        default-value="history-clipboard"
+        default-value="/main/historyClipboardSetting"
         width="100%"
       >
-        <t-menu-item value="history-clipboard">
+        <t-menu-item value="/main/historyClipboardSetting">
           <template #icon>
             <PasteIcon />
           </template>
-          <router-link to="/main/historyClipboardSetting">剪切板历史</router-link>
+          剪切板历史
         </t-menu-item>
-        <t-menu-item value="resource">
+        <t-menu-item value="/main/videoParser">
           <template #icon>
-            <ServerIcon />
+            <VideoIcon />
           </template>
-          资源列表
+          视频解析
         </t-menu-item>
-        <t-menu-item value="about">
+        <t-menu-item value="/main/about">
           <template #icon>
             <InfoCircleIcon />
           </template>
@@ -43,7 +49,11 @@ onMounted(()=>{
       <t-header height="30px" style="background: transparent" class="header-drag"></t-header>
       <t-layout style="background: transparent">
         <t-content style="background: transparent">
-          <router-view></router-view>
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </router-view>
         </t-content>
         <t-footer style="background: transparent"></t-footer>
       </t-layout>

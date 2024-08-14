@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch,reactive } from "vue";
+import { computed, onMounted, ref, watch,reactive,onUnmounted } from "vue";
 import HotKeyInput from "./HotKeyInput.vue";
 const HotKeyConfigType = window.api.HotKeyConfigType
 const mainEvent = window.api.mainEvent
@@ -26,6 +26,10 @@ onMounted(()=>{
 
   })
 
+})
+
+onUnmounted(()=>{
+  window.electron.ipcRenderer.removeAllListeners()
 })
 
 const hotKeySettingChange = (value,propName)=>{
