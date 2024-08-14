@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {  InfoCircleIcon, PasteIcon, ServerIcon,VideoIcon } from "tdesign-icons-vue-next";
+import {  InfoCircleIcon, PasteIcon,VideoIcon } from "tdesign-icons-vue-next";
 import { onMounted } from "vue";
 import router from "../router";
 
