@@ -33,6 +33,15 @@ export function createWindow(): BrowserWindow {
       webviewTag: true,
     }
   })
+
+  // 监听webview的弹窗页面
+  mainWindow.webContents.on('did-attach-webview', (_, wc) => {
+    wc.setWindowOpenHandler((details) => {
+      mainWindow.webContents.send('webview-new-window', wc.id, details)
+      return { action: 'deny' }
+    })
+  })
+
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
     // 只要主窗口展示，就设置dock栏目图标

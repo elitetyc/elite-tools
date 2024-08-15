@@ -75,7 +75,7 @@ function clearHistoryClipboard() {
 }
 
 function listenText() {
-  const text = clipboard.readText();
+  const text = clipboard.readText().trim();
   const md5 = Util.md5Encode(text);
   if (text && lastClipboardInfoTxtMd5 !== md5) {
     // 有值，并且不相等，说明剪切板内容变化

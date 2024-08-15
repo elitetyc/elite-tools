@@ -8,8 +8,8 @@ export class HistoryClipboardManager {
   public static createWindow(): BrowserWindow {
     // Create the browser window.
     const window = new BrowserWindow({
-      width: 500,
-      height: 500,
+      width: 600,
+      height: 600,
       show: false,
       titleBarStyle: "hidden",
       minimizable: false,

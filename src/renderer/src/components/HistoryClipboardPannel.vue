@@ -62,7 +62,7 @@ onUnmounted(()=>{
       <template #content>
         <div style="font-weight: bold" v-if="item.type===HistoryClipboardType.text
         ||item.type===HistoryClipboardType.file">{{ item.content }}</div>
-        <div v-if="item.type===HistoryClipboardType.file">
+        <div v-if="item.type===HistoryClipboardType.img">
           <t-image
             fit="contain"
             :src="item.content"

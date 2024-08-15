@@ -4,3 +4,12 @@
   -webkit-app-region: drag;
   height: 30px;
 }
+
+.no-drag{
+  -webkit-app-region: no-drag;
+}
+
+
+.point{
+  cursor: pointer
+}
