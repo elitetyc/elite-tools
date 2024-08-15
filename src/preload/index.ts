@@ -11,7 +11,8 @@ const api = {
   HotKeyConfigType,
   mainEvent:Context.mainEvent,
   historyClipBoarEvent:Context.historyClipBoarEvent,
-  keyMapMapping
+  keyMapMapping,
+  maxsizeMainWindow:Context.maxsizeMainWindow
 }
 
 

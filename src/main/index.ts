@@ -28,10 +28,11 @@ export function createWindow(): BrowserWindow {
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      // 启用页面中的webview标签
+      webviewTag: true,
     }
   })
-
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
     // 只要主窗口展示，就设置dock栏目图标
@@ -45,7 +46,9 @@ export function createWindow(): BrowserWindow {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '#/main')
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']+"#/main")
+    // 开发的时候，每次启动默认打开开发者工具
+    mainWindow.webContents.openDevTools()
   } else {
     // mainWindow.loadFile(join(__dirname, '../renderer/index.html#/main'))
     mainWindow.loadURL(`file://${join(__dirname, '../renderer/index.html#/main')}`)

@@ -1,5 +1,6 @@
-<script setup lang="ts">
+<script setup>
 
+const mainEvent = window.api.mainEvent;
 import {  InfoCircleIcon, PasteIcon,VideoIcon } from "tdesign-icons-vue-next";
 import { onMounted } from "vue";
 import router from "../router";
@@ -11,6 +12,12 @@ onMounted(()=>{
 
 const changePage= (path)=>{
   router.push(path)
+  if (path === "/main/videoParser"){
+    // 最大化页面
+    window.electron.ipcRenderer.send(mainEvent.MAXSIZE_OR_MINSIZE_WINDOW,true)
+  }else {
+    window.electron.ipcRenderer.send(mainEvent.MAXSIZE_OR_MINSIZE_WINDOW,false)
+  }
 }
 
 </script>
@@ -55,7 +62,7 @@ const changePage= (path)=>{
             </keep-alive>
           </router-view>
         </t-content>
-        <t-footer style="background: transparent"></t-footer>
+<!--        <t-footer style="background: transparent"></t-footer>-->
       </t-layout>
     </t-layout>
   </t-layout>

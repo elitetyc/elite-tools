@@ -16,7 +16,8 @@ export class Context {
   public static mainEvent = {
     CLIPBOARD_CONFIG_LIST : "clipboard_config_list",
     GET_CLIPBOARD_CONFIG_LIST:"get_clipboard_config_list",
-    HOT_KEY_SETTING_CHANGE:"hot_key_setting_change"
+    HOT_KEY_SETTING_CHANGE:"hot_key_setting_change",
+    MAXSIZE_OR_MINSIZE_WINDOW:"max_window",
   }
 
   public static ipcMain = ipcMain
@@ -49,6 +50,16 @@ export function init(){
   } else {
     console.log(`应用文件存在了: ${dirPath}`);
   }
+
+  // 监听是否需要最大化页面
+  ipcMain.on(Context.mainEvent.MAXSIZE_OR_MINSIZE_WINDOW,(_, args)=>{
+    if (args==true){
+      Context.mainWindow.maximize()
+    }else {
+      Context.mainWindow.unmaximize()
+    }
+  })
+
 }
 
 // 数据库初始化结果

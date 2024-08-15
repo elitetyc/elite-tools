@@ -22,9 +22,11 @@
 
     </t-col>
   </t-row>
-  <t-content>
-
+  <t-content style="height: 100%">
+    <webview id="webview"
+             src="https://www.baidu.com/" style="display:inline-flex; width:100%; height:100%"></webview>
   </t-content>
+
 </template>
 
 <style scoped>
