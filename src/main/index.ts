@@ -2,30 +2,28 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import * as HotKey from "./hotkey/hotkey";
-import * as Clipboard from "./pages/history-clipboard/clipboard";
-import DatabaseManager from "./ipc/database";
+import * as HotKey from './hotkey/hotkey'
+import * as Clipboard from './pages/history-clipboard/clipboard'
+import DatabaseManager from './ipc/database'
 
-import * as Context from "./ipc/context"
+import * as Context from './ipc/context'
 
-import TrayMenu from "./components/tray-menu";
+import TrayMenu from './components/tray-menu'
 
 // 全局变量初始化
 Context.init()
 // 初始化数据库
 new DatabaseManager(Context.Context.getDBPath()).init()
 // 设置dock栏菜单
-app.dock.setIcon(icon)
-
+Context.Context.isMac && app.dock.setIcon(icon);
 
 export function createWindow(): BrowserWindow {
-
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 550,
     titleBarStyle: 'hidden',
-    icon:icon,
+    icon: icon,
     autoHideMenuBar: true,
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -39,7 +37,6 @@ export function createWindow(): BrowserWindow {
     // 只要主窗口展示，就设置dock栏目图标
   })
 
-
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
@@ -48,15 +45,15 @@ export function createWindow(): BrowserWindow {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']+"#/main")
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '#/main')
   } else {
     // mainWindow.loadFile(join(__dirname, '../renderer/index.html#/main'))
     mainWindow.loadURL(`file://${join(__dirname, '../renderer/index.html#/main')}`)
   }
 
   Context.Context.mainWindow = mainWindow
-  app.dock.show()
-  app.dock.setIcon(icon)
+  Context.Context.isMac && app.dock.show()
+  Context.Context.isMac && app.dock.setIcon(icon)
   return mainWindow
 }
 
@@ -88,7 +85,6 @@ app.whenReady().then(() => {
   Clipboard.init()
   // 初始化托盘
   TrayMenu.init()
-
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -99,7 +95,7 @@ app.on('window-all-closed', () => {
     app.quit()
   }
   // 如果是mac，关闭所有窗口时，隐藏dock图标
-  app.dock.hide()
+  Context.Context.isMac && app.dock.hide()
 })
 
 // In this file you can include the rest of your app"s specific main process
