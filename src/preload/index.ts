@@ -12,7 +12,7 @@ const api = {
   mainEvent:Context.mainEvent,
   historyClipBoarEvent:Context.historyClipBoarEvent,
   keyMapMapping,
-  maxsizeMainWindow:Context.maxsizeMainWindow
+  maxsizeMainWindow:Context.mainEvent.MAXSIZE_OR_MINSIZE_WINDOW
 }
 
 
