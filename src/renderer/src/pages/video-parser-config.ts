@@ -78,7 +78,7 @@ export class VideoParserConfig {
   static videoPlatformList = [
     {
       name: "爱奇艺",
-      url: "https://www.iqi66666yi.com"
+      url: "https://www.iqiyi.com"
     },
     {
       name: "乐视",
