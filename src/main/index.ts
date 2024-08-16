@@ -15,7 +15,7 @@ Context.init()
 // 初始化数据库
 new DatabaseManager(Context.Context.getDBPath()).init()
 // 设置dock栏菜单
-Context.Context.isMac && app.dock.setIcon(icon);
+Context.Context.isMac && app.dock.setIcon(icon)
 
 export function createWindow(): BrowserWindow {
   // Create the browser window.
@@ -30,7 +30,7 @@ export function createWindow(): BrowserWindow {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
       // 启用页面中的webview标签
-      webviewTag: true,
+      webviewTag: true
     }
   })
 

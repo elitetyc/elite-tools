@@ -28,9 +28,8 @@ export default class TrayMenu {
 }
 
 export function openMainWindow(): void {
-  if (!Context.mainWindow || (Context.mainWindow && Context.mainWindow.isDestroyed())) {
-    createWindow()
-  }
+  if (!Context.mainWindow || (Context.mainWindow && Context.mainWindow.isDestroyed())) createWindow();
+  else Context.mainWindow.show()
 }
 
 function quit(): void {

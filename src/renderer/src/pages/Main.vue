@@ -1,25 +1,21 @@
 <script setup>
+const mainEvent = window.api.mainEvent
+import { InfoCircleIcon, PasteIcon, VideoIcon } from 'tdesign-icons-vue-next'
+import { onMounted } from 'vue'
+import router from '../router'
 
-const mainEvent = window.api.mainEvent;
-import {  InfoCircleIcon, PasteIcon,VideoIcon } from "tdesign-icons-vue-next";
-import { onMounted } from "vue";
-import router from "../router";
-
-onMounted(()=>{
+onMounted(() => {
   // 默认打开
-  router.push("/main/historyClipboardSetting")
+  router.push('/main/historyClipboardSetting')
 })
 
-const changePage= (path)=>{
+const changePage = (path) => {
   router.push(path)
-  if (path === "/main/videoParser"){
-    // 最大化页面
-    window.electron.ipcRenderer.send(mainEvent.MAXSIZE_OR_MINSIZE_WINDOW,true)
-  }else {
-    window.electron.ipcRenderer.send(mainEvent.MAXSIZE_OR_MINSIZE_WINDOW,false)
-  }
+  window.electron.ipcRenderer.send(
+    mainEvent.MAXSIZE_OR_MINSIZE_WINDOW,
+    path === '/main/videoParser'
+  )
 }
-
 </script>
 
 <template>
@@ -27,7 +23,7 @@ const changePage= (path)=>{
     <t-aside width="200px" style="background: transparent">
       <t-menu
         @change="changePage"
-        style="padding-top: 30px;opacity: 0.9"
+        style="padding-top: 30px; opacity: 0.9"
         theme="dark"
         default-value="/main/historyClipboardSetting"
         width="100%"
@@ -53,7 +49,7 @@ const changePage= (path)=>{
       </t-menu>
     </t-aside>
     <t-layout style="background: transparent">
-      <t-header height="30px" style="background: transparent" class="header-drag"></t-header>
+      <t-header height="40px" style="background: transparent" class="header-drag"></t-header>
       <t-layout style="background: transparent">
         <t-content style="background: transparent">
           <router-view v-slot="{ Component }">
@@ -62,23 +58,18 @@ const changePage= (path)=>{
             </keep-alive>
           </router-view>
         </t-content>
-<!--        <t-footer style="background: transparent"></t-footer>-->
+        <!--        <t-footer style="background: transparent"></t-footer>-->
       </t-layout>
     </t-layout>
   </t-layout>
 </template>
 <style scoped>
-
-.main-bg{
+.main-bg {
   height: 100vh;
   width: 100vw;
-  background-image: url("../assets/images/main-bg.jpeg") !important;
+  background-image: url('../assets/images/main-bg.jpeg') !important;
   background-repeat: no-repeat !important;
   background-size: cover !important; /* 可选，根据需要设置背景大小 */
   background-position: center !important;
 }
-
-
-
-
 </style>
