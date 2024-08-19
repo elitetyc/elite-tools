@@ -1,10 +1,12 @@
-import { clipboard, nativeImage,dialog,app } from "electron";
+import { clipboard, nativeImage, dialog, app } from "electron";
 import { Context } from "../../ipc/context";
 import * as historyClipboard from "./dao";
 import Util from "../../util";
 import { HistoryClipboard, HistoryClipboardType } from "./dao";
 import * as fs from "node:fs";
 import { RunResult } from "sqlite3";
+
+import robot from "robotjs";
 
 
 let lastClipboardInfoTxtMd5 = "";
@@ -16,7 +18,7 @@ let newClearHistoryClipboardIntervalId: NodeJS.Timeout;
 export function init() {
 
   setInterval(() => {
-    if (Context.dbInitSuccess){
+    if (Context.dbInitSuccess) {
       listenText();
       listenImg();
       listenFile();
@@ -47,17 +49,17 @@ export function init() {
         clipboard.writeImage(nativeImage.createFromDataURL(clipBoard.content));
         break;
       case HistoryClipboardType.file:
-        hasError = writeFileBuffer(clipBoard.content)
+        hasError = writeFileBuffer(clipBoard.content);
         break;
       default:
         break;
     }
-    if (!hasError){
+    if (!hasError) {
       // 关闭弹出
       Context.historyClipBoardWindow.hide();
-      app.hide()
+      app.hide();
       // 模拟粘贴
-      Context.historyClipBoardWindow.webContents.paste()
+      robot.keyTap("v", Context.isMac ? "command" : "control");
     }
   });
 }
@@ -83,7 +85,7 @@ function listenText() {
   if (text && lastClipboardInfoTxtMd5 !== md5) {
     // 有值，并且不相等，说明剪切板内容变化
     insertOneProxy(new historyClipboard.HistoryClipboard(
-      -1, historyClipboard.HistoryClipboardType.text, text,md5, new Date()
+      -1, historyClipboard.HistoryClipboardType.text, text, md5, new Date()
     ), (err) => {
       if (err) console.log(err);
       historyClipboard.sendData();
@@ -92,61 +94,62 @@ function listenText() {
   }
 }
 
-function writeFileBuffer(filePath){
-  let newPath = filePath
-  let format = 'FileNameW'
-  if (Context.isMac){
-    format = 'public.file-url'
-    newPath = `file://${filePath}`
+function writeFileBuffer(filePath) {
+  let newPath = filePath;
+  let format = "FileNameW";
+  if (Context.isMac) {
+    format = "public.file-url";
+    newPath = `file://${filePath}`;
   }
-  if (!fs.existsSync(filePath)){
+  if (!fs.existsSync(filePath)) {
     dialog.showMessageBox(Context.historyClipBoardWindow, {
-      type: 'error',
-      title: '错误',
-      message: '文件不存在',
-      buttons: ['OK']
+      type: "error",
+      title: "错误",
+      message: "文件不存在",
+      buttons: ["OK"]
     }).then(result => {
-      console.log('User clicked:', result.response);
+      console.log("User clicked:", result.response);
     }).catch(err => {
-      console.error('Error displaying message box:', err);
+      console.error("Error displaying message box:", err);
     });
-    return true
+    return true;
   }
-  clipboard.writeBuffer(format,Buffer.from(newPath))
-  return false
+  clipboard.writeBuffer(format, Buffer.from(newPath));
+  return false;
 }
 
 function listenFile() {
-  let format = 'public.file-url'
-  if (Context.isWin){
-    format = 'FileNameW'
+  let format = "public.file-url";
+  if (Context.isWin) {
+    format = "FileNameW";
   }
-  const  filePathBuf = clipboard.readBuffer(format)
-  if (filePathBuf&&filePathBuf.length>0){
+  const filePathBuf = clipboard.readBuffer(format);
+  if (filePathBuf && filePathBuf.length > 0) {
     let filePath = filePathBuf.toString();
-    if (Context.isMac){
-      filePath = filePath.replace("file://","")
+    if (Context.isMac) {
+      filePath = filePath.replace("file://", "");
     }
     const md5 = Util.md5Encode(filePath);
     if (md5 !== lastClipboardInfoFileMd5) {
       const stats = fs.statSync(filePath);
-      if (stats.isFile()){
+      if (stats.isFile()) {
         // 推送到数据库
         insertOneProxy(new historyClipboard.HistoryClipboard(
-          -1, historyClipboard.HistoryClipboardType.file, filePath,md5, new Date()
+          -1, historyClipboard.HistoryClipboardType.file, filePath, md5, new Date()
         ), (err) => {
           if (err) console.log(err);
           historyClipboard.sendData();
           lastClipboardInfoFileMd5 = md5;
         });
-      }else if (stats.isDirectory()){
+      } else if (stats.isDirectory()) {
         // 不处理
-      }else{
-        console.log("未知路径类型，",filePath,stats)
+      } else {
+        console.log("未知路径类型，", filePath, stats);
       }
     }
   }
 }
+
 function listenImg() {
   const img = clipboard.readImage();
   if (!img.isEmpty()) {
@@ -155,7 +158,7 @@ function listenImg() {
     if (md5 !== lastClipboardInfoImgMd5) {
       // 推送到数据库
       insertOneProxy(new historyClipboard.HistoryClipboard(
-        -1, historyClipboard.HistoryClipboardType.img, url,md5, new Date()
+        -1, historyClipboard.HistoryClipboardType.img, url, md5, new Date()
       ), (err) => {
         if (err) console.log(err);
         historyClipboard.sendData();
@@ -165,17 +168,17 @@ function listenImg() {
   }
 }
 
-function insertOneProxy(history_clipboard: HistoryClipboard, callBack: (this: RunResult, err: Error | null) => void){
-  historyClipboard.queryByMd5(history_clipboard.md5,(err,row)=>{
+function insertOneProxy(history_clipboard: HistoryClipboard, callBack: (this: RunResult, err: Error | null) => void) {
+  historyClipboard.queryByMd5(history_clipboard.md5, (err, row) => {
     if (err) console.log(err);
-    if (row&&row.id){
+    if (row && row.id) {
       // 有数据了，更新
-      row.create_time = history_clipboard.create_time
+      row.create_time = history_clipboard.create_time;
       historyClipboard.updateOne(row, callBack);
-    }else {
+    } else {
       // 没有数据insert
       historyClipboard.insertOne(history_clipboard, callBack);
     }
-  })
+  });
 
 }
