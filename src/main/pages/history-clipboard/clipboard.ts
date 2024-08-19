@@ -1,4 +1,4 @@
-import { clipboard, nativeImage,dialog } from "electron";
+import { clipboard, nativeImage,dialog,app } from "electron";
 import { Context } from "../../ipc/context";
 import * as historyClipboard from "./dao";
 import Util from "../../util";
@@ -55,6 +55,9 @@ export function init() {
     if (!hasError){
       // 关闭弹出
       Context.historyClipBoardWindow.hide();
+      app.hide()
+      // 模拟粘贴
+      Context.historyClipBoardWindow.webContents.paste()
     }
   });
 }

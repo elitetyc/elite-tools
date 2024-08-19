@@ -33,5 +33,9 @@ export function openMainWindow(): void {
 }
 
 function quit(): void {
-  app.quit()
+  if (Context.isMac){
+    app.exit()
+  }else {
+    app.quit()
+  }
 }

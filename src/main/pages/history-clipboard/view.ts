@@ -30,7 +30,7 @@ export class HistoryClipboardManager {
     })
 
     window.on('blur', () => {
-      window.close()
+      window.hide()
     })
 
     // HMR for renderer base on electron-vite cli.
@@ -51,6 +51,8 @@ export class HistoryClipboardManager {
       (Context.historyClipBoardWindow && Context.historyClipBoardWindow.isDestroyed())
     ) {
       HistoryClipboardManager.createWindow()
+    }else {
+      Context.historyClipBoardWindow.show()
     }
   }
 }
