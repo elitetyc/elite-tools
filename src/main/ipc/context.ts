@@ -2,7 +2,7 @@ import * as os from 'os'
 import * as path from 'node:path'
 import { BrowserWindow, ipcMain } from 'electron'
 import { Database } from 'sqlite3'
-import { mainEventInter } from "../../type/contextType";
+import { mainEventInter } from "@/type/contextType";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
 

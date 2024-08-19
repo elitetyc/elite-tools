@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { CloseIcon, Fullscreen1Icon, RemoveIcon } from 'tdesign-icons-vue-next'
 import { computed, ref } from 'vue'
-import { mainEventInter } from '../../type/contextType'
+import { mainEventInter } from "@/type/contextType"
+
 
 const mainEvent: mainEventInter = window.api.mainEvent
 const flag = ref(false)
