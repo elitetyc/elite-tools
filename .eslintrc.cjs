@@ -13,5 +13,15 @@ module.exports = {
   rules: {
     'vue/require-default-prop': 'off',
     'vue/multi-word-component-names': 'off'
+  },
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@', './src'], // 配置路径别名解析
+        ],
+        extensions: ['.ts', '.js', '.vue', '.json'] // 支持的文件扩展名
+      }
+    }
   }
 }
