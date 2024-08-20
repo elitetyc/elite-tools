@@ -13,7 +13,7 @@ export class HistoryClipboardManager {
       titleBarStyle: 'hidden',
       minimizable: !Context.isMac,
       maximizable: !Context.isMac,
-      closable: !Context.isMac,
+      // closable: !Context.isMac,
       autoHideMenuBar: true,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
