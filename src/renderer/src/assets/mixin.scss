@@ -4,3 +4,26 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@mixin gradient-border-color($color1: #fff, $color2: #fff0, $size: 1px, $radius: 0px, $deg: 353deg) {
+  position: relative;
+  z-index: 2;
+  background-origin: border-box;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: $radius;
+    background: linear-gradient($deg, $color1, $color2);
+    padding: $size;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    -webkit-mask:
+      linear-gradient(#fff 0 100%) content-box,
+      linear-gradient(#fff 0 100%);
+    -webkit-mask-composite: xor;
+  }
+}

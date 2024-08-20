@@ -17,13 +17,11 @@ export default defineConfig({
         "@": resolve(__dirname, 'src')
       }
     },
-    plugins: [
-      vue()
-    ],
+    plugins: [vue()],
     build: {
       rollupOptions: {
-        external: ["electron", "@electron/remote"] // 将 Electron 和 @electron/remote 排除在外
+        external: ['electron', '@electron/remote'] // 将 Electron 和 @electron/remote 排除在外
       }
     }
   }
-});
+})

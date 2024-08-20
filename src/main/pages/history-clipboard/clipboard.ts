@@ -57,7 +57,7 @@ export function init() {
     if (!hasError) {
       // 关闭弹出
       Context.historyClipBoardWindow.hide();
-      app.hide();
+      Context.isMac && app.hide();
       // 模拟粘贴
       robot.keyTap("v", Context.isMac ? "command" : "control");
     }

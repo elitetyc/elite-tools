@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './assets/main.scss'
 import './assets/mixin.scss'
 import { createApp } from 'vue'
 import App from './App.vue'

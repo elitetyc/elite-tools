@@ -1,0 +1,63 @@
+@import './base.scss';
+@import './mixin.scss';
+
+.header-drag{
+  -webkit-app-region: drag;
+  height: 40px;
+  width: calc(100% - 112px)
+}
+
+.no-drag{
+  -webkit-app-region: no-drag;
+}
+
+
+.point{
+  cursor: pointer
+}
+
+.layout-nav-default-theme {
+
+  .t-default-menu__inner .t-menu{
+    padding: 40px 40px 24px  24px;
+  }
+
+  .t-menu__item {
+    height: 48px;
+    background: linear-gradient(74deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.08) 60%);
+    border-radius: 100px;
+    box-shadow: 0px 9px 9px 0px rgba(21,34,55,0.31);
+    --ripple-color: rgba(103, 22, 22, 0.6);
+    position: relative;
+    @include gradient-border-color(rgba(255,255,255,0.0), rgba(255,255,255,0.5), 1px, 100px, 888deg);
+
+    &.t-is-active:not(.t-is-opened) {
+      background-color: initial!important;
+      border: inherit;
+    }
+
+    &:hover:not(.t-is-active):not(.t-is-opened):not(.t-is-disabled) {
+      background: linear-gradient(45deg, rgba(103, 22, 22, 0.4) , transparent);
+    }
+
+    .nav-icon {
+      filter: drop-shadow(0px 6px 9px rgba(34,30,52,0.53));
+      width: 32px;
+      margin-right: 8px;
+    }
+
+    &:not(:first-child) {
+      margin-top: 24px!important;
+    }
+
+    &.t-is-active::after{
+      position: absolute;
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: linear-gradient(0deg, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.14) 100%);
+      border-radius: 2px;
+      right: -16px;
+    }
+  }
+}

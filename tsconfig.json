@@ -1,5 +1,6 @@
 {
   "files": [],
+  "include": ["./src/type/*.d.ts", "./src/renderer/src/*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }],
   "compilerOptions": {
     "baseUrl": ".",

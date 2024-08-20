@@ -1,31 +1,39 @@
 <script setup lang="ts">
 import { CloseIcon, Fullscreen1Icon, RemoveIcon } from 'tdesign-icons-vue-next'
-import { computed, ref } from 'vue'
-import { mainEventInter } from "@/type/contextType"
-
+import { computed, ref } from "vue";
+import { mainEventInter } from "@/type/contextType";
+import { useRoute } from "vue-router";
 
 const mainEvent: mainEventInter = window.api.mainEvent
 const flag = ref(false)
+
+const route = useRoute()
 const handle = (type) => {
   type === mainEvent.MAXSIZE_OR_MINSIZE_WINDOW && (flag.value = !flag.value)
   window.electron.ipcRenderer.send(type, flag.value)
 }
 
 const isWin = computed(() => window.electron.process.platform === 'win32')
+const isHistoryClipboard = computed(() => route.path !== '/historyClipboard')
 </script>
 
 <template>
   <div v-if="isWin" class="window-bar">
-    <RemoveIcon class="icon icon-narrow" @click="handle(mainEvent.MIN_WINDOW)" />
-    <Fullscreen1Icon class="icon icon-enlarged" @click="handle(mainEvent.MAXSIZE_OR_MINSIZE_WINDOW)" />
+    <RemoveIcon class="icon icon-narrow" @click="handle(mainEvent.MIN_WINDOW)" :style="{right: isHistoryClipboard ? '68px' : '34px'}" />
+    <Fullscreen1Icon
+      v-show="isHistoryClipboard"
+      class="icon icon-enlarged"
+      @click="handle(mainEvent.MAXSIZE_OR_MINSIZE_WINDOW)"
+    />
     <CloseIcon class="icon" @click="handle(mainEvent.HIDE_WINDOW)" />
   </div>
   <router-view></router-view>
 </template>
 <style lang="scss">
-@import 'assets/mixin';
+@import 'assets/main';
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 .window-bar {
