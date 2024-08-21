@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { CloseIcon, Fullscreen1Icon, RemoveIcon } from 'tdesign-icons-vue-next'
 import { computed, ref } from "vue";
-import { mainEventInter } from "@/type/contextType";
+import { MainEvent } from '@/type/context-type'
 import { useRoute } from "vue-router";
 
-const mainEvent: mainEventInter = window.api.mainEvent
+const mainEvent: MainEvent = window.api.mainEvent
 const flag = ref(false)
 
 const route = useRoute()

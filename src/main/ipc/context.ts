@@ -2,7 +2,7 @@ import * as os from 'os'
 import * as path from 'node:path'
 import { BrowserWindow, ipcMain } from 'electron'
 import { Database } from 'sqlite3'
-import { mainEventInter } from "@/type/contextType";
+import { MainEvent, HistoryClipBoarEvent } from '@/type/context-type'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
 
@@ -14,7 +14,7 @@ export class Context {
   public static dbInitSuccess = false
   // 主窗口弹窗
   public static mainWindow: BrowserWindow
-  public static mainEvent: mainEventInter = {
+  public static mainEvent: MainEvent = {
     CLIPBOARD_CONFIG_LIST: 'clipboard_config_list',
     GET_CLIPBOARD_CONFIG_LIST: 'get_clipboard_config_list',
     HOT_KEY_SETTING_CHANGE: 'hot_key_setting_change',
@@ -30,7 +30,7 @@ export class Context {
 
   // 剪切板历史弹窗
   public static historyClipBoardWindow: BrowserWindow
-  public static historyClipBoarEvent = {
+  public static historyClipBoarEvent: HistoryClipBoarEvent = {
     HISTORY_CLIPBOARD_LIST: 'historyClipboardList',
     CLIPBOARD_SEARCH_INPUT_CHANGE: 'clipboardSearchInputChange',
     CLIPBOARD_ITEM_CLICK: 'clipboardItemClick'
