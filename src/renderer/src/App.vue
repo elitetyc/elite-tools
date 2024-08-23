@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CloseIcon, Fullscreen1Icon, RemoveIcon } from 'tdesign-icons-vue-next'
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue'
 import { MainEvent } from '@/type/context-type'
-import { useRoute } from "vue-router";
+import { useRoute } from 'vue-router'
 
 const mainEvent: MainEvent = window.api.mainEvent
 const flag = ref(false)
@@ -19,7 +19,11 @@ const isHistoryClipboard = computed(() => route.path !== '/historyClipboard')
 
 <template>
   <div v-if="isWin" class="window-bar">
-    <RemoveIcon class="icon icon-narrow" @click="handle(mainEvent.MIN_WINDOW)" :style="{right: isHistoryClipboard ? '68px' : '34px'}" />
+    <RemoveIcon
+      class="icon icon-narrow"
+      @click="handle(mainEvent.MIN_WINDOW)"
+      :style="{ right: isHistoryClipboard ? '68px' : '34px' }"
+    />
     <Fullscreen1Icon
       v-show="isHistoryClipboard"
       class="icon icon-enlarged"

@@ -2,6 +2,7 @@ import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import { BrowserWindow } from 'electron'
 import { Context } from '../../ipc/context'
+import robot from 'robotjs'
 
 export class HistoryClipboardManager {
   public static createWindow(): BrowserWindow {
@@ -51,7 +52,13 @@ export class HistoryClipboardManager {
       (Context.historyClipBoardWindow && Context.historyClipBoardWindow.isDestroyed())
     ) {
       HistoryClipboardManager.createWindow()
-    }else {
+    } else {
+      // 记录鼠标位置
+      const { x, y } = robot.getMousePos()
+      Context.mouseClickPosition = {
+        x: Number(x),
+        y: Number(y)
+      }
       Context.historyClipBoardWindow.show()
     }
   }

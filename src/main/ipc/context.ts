@@ -40,6 +40,16 @@ export class Context {
   public static getDBPath() {
     return path.join(Context.homeDirectory, Context.APP_HOME_DIR, Context.APP_DB_NAME)
   }
+
+  public static mouseClickPosition = {
+    x: 0,
+    y: 0
+  }
+
+  public static lastMousePosition = {
+    x: 0,
+    y: 0
+  }
 }
 export function init() {
   const dirPath = path.join(Context.homeDirectory, Context.APP_HOME_DIR)

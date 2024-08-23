@@ -3,13 +3,8 @@ import { MainEvent,HistoryClipBoarEvent } from '@/type/contextType'
 import remote from '@electron/remote'
 import { HistoryClipboardType } from '@main/pages/history-clipboard/dao'
 import { HotKeyConfigType } from '@main/hotkey/dao'
+import { Api } from '@/type/context-type'
 
-interface Api {
-  mainEvent: MainEvent
-  HistoryClipboardType
-  HotKeyConfigType
-  historyClipBoarEvent:HistoryClipBoarEvent
-}
 declare global {
   interface Window {
     electron: ElectronAPI

@@ -7,8 +7,15 @@ export interface MainEvent {
   HIDE_WINDOW: string
 }
 
-export interface HistoryClipBoarEvent{
+export interface HistoryClipBoarEvent {
   HISTORY_CLIPBOARD_LIST: string
   CLIPBOARD_SEARCH_INPUT_CHANGE: string
   CLIPBOARD_ITEM_CLICK: string
+}
+
+export interface Api {
+  mainEvent: MainEvent
+  HistoryClipboardType
+  HotKeyConfigType
+  historyClipBoarEvent: HistoryClipBoarEvent
 }
