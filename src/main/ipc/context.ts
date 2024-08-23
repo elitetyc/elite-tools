@@ -65,19 +65,18 @@ export function init() {
 
   // 监听是否需要最大化页面
   ipcMain.on(Context.mainEvent.MAXSIZE_OR_MINSIZE_WINDOW, (_, args) => {
-    if (args == true) {
-      Context.mainWindow.maximize()
-    } else {
-      Context.mainWindow.unmaximize()
-    }
+    if (args) Context.mainWindow.maximize()
+    else Context.mainWindow.unmaximize()
   })
 
-  ipcMain.on(Context.mainEvent.HIDE_WINDOW, () => {
-    Context.mainWindow.hide()
+  ipcMain.on(Context.mainEvent.HIDE_WINDOW, (_ , __, isHistoryClipboard) => {
+    if (isHistoryClipboard) Context.historyClipBoardWindow.hide()
+    else Context.mainWindow.hide()
   })
 
-  ipcMain.on(Context.mainEvent.MIN_WINDOW, () => {
-    Context.mainWindow.minimize()
+  ipcMain.on(Context.mainEvent.MIN_WINDOW, (_ , __, isHistoryClipboard) => {
+    if (isHistoryClipboard) Context.historyClipBoardWindow.minimize()
+    else Context.mainWindow.minimize()
   })
 }
 

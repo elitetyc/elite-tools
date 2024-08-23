@@ -10,11 +10,11 @@ const flag = ref(false)
 const route = useRoute()
 const handle = (type) => {
   type === mainEvent.MAXSIZE_OR_MINSIZE_WINDOW && (flag.value = !flag.value)
-  window.electron.ipcRenderer.send(type, flag.value)
+  window.electron.ipcRenderer.send(type, flag.value, isHistoryClipboard.value)
 }
 
 const isWin = computed(() => window.electron.process.platform === 'win32')
-const isHistoryClipboard = computed(() => route.path !== '/historyClipboard')
+const isHistoryClipboard = computed(() => route.path === '/historyClipboard')
 </script>
 
 <template>
@@ -22,10 +22,10 @@ const isHistoryClipboard = computed(() => route.path !== '/historyClipboard')
     <RemoveIcon
       class="icon icon-narrow"
       @click="handle(mainEvent.MIN_WINDOW)"
-      :style="{ right: isHistoryClipboard ? '68px' : '34px' }"
+      :style="{ right: !isHistoryClipboard ? '68px' : '34px' }"
     />
     <Fullscreen1Icon
-      v-show="isHistoryClipboard"
+      v-show="!isHistoryClipboard"
       class="icon icon-enlarged"
       @click="handle(mainEvent.MAXSIZE_OR_MINSIZE_WINDOW)"
     />
