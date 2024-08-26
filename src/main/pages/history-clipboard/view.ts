@@ -24,7 +24,10 @@ export class HistoryClipboardManager {
 
     // 确保窗口在所有桌面和全屏应用上显示
     // window.setAlwaysOnTop(true, 'screen-saver');
-    window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+    window.setVisibleOnAllWorkspaces(true, {
+      visibleOnFullScreen: true,
+      skipTransformProcessType: true
+    });
 
     window.on('ready-to-show', () => {
       window.show()

@@ -8,7 +8,7 @@ const mainEvent: MainEvent = window.api.mainEvent
 const flag = ref(false)
 
 const route = useRoute()
-const handle = (type) => {
+const handle = (type: string) => {
   type === mainEvent.MAXSIZE_OR_MINSIZE_WINDOW && (flag.value = !flag.value)
   window.electron.ipcRenderer.send(type, flag.value, isHistoryClipboard.value)
 }

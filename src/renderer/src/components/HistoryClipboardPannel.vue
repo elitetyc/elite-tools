@@ -6,6 +6,8 @@ const historyClipboardEvent = window.api.historyClipBoarEvent
 const searchInput = ref()
 const historyList = ref([])
 
+const scrollList = ref(null)
+
 const searchInputChange = (value) => {
   window.electron.ipcRenderer.send(historyClipboardEvent.CLIPBOARD_SEARCH_INPUT_CHANGE, value)
 }
@@ -23,6 +25,10 @@ onMounted(() => {
   searchInputChange('')
   window.electron.ipcRenderer.on(historyClipboardEvent.HISTORY_CLIPBOARD_LIST, (event, data) => {
     historyList.value = data
+    // 每次有最新的剪切板内容都滚动到最上面
+    if (scrollList.value) {
+      scrollList.value.$el.scrollTop = 0
+    }
   })
 })
 watch(searchInput, searchInputChange)
@@ -30,6 +36,7 @@ watch(searchInput, searchInputChange)
 onUnmounted(() => {
   window.electron.ipcRenderer.removeAllListeners()
 })
+
 </script>
 
 <template>
@@ -39,7 +46,7 @@ onUnmounted(() => {
     </template>
   </t-input>
 
-  <t-list class="p-list" :split="true" :scroll="{ type: 'virtual' }">
+  <t-list ref="scrollList" class="p-list" :split="true"  :scroll="{ type: 'virtual' }">
     <t-popup v-for="(item) in computedHistoryList" placement="bottom">
       <t-list-item @click="historyItemClick(item)">
         <t-row style="width: 100%">
