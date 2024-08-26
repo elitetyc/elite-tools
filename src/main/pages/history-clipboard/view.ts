@@ -34,7 +34,7 @@ export class HistoryClipboardManager {
     })
 
     window.on('blur', () => {
-      window.hide()
+      window.destroy()
     })
 
     // HMR for renderer base on electron-vite cli.
