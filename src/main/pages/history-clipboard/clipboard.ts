@@ -61,7 +61,7 @@ export function init() {
       // 关闭弹出
       const { x: mouseX, y: mouseY } = Context.mouseClickPosition
       const { x: mouseLastX, y: mouseLastY } = Context.lastMousePosition
-      Context.historyClipBoardWindow.hide()
+      Context.historyClipBoardWindow.destroy()
       Context.isMac && app.hide()
       if (Context.isWin) {
         robot.moveMouse(mouseX, mouseY)
