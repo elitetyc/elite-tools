@@ -1,6 +1,10 @@
 # elite-clipboard
 
-一个macos上面的剪切板，支持图片，文本，快捷键呼出
+一个macos上面的剪切板，支持图片，文本，文件，快捷键呼出
+
+新增视频解析
+
+**windows平台自行打包**
 
 如果提示已损坏执行：
 sudo xattr -r -d com.apple.quarantine /Applications/elite-clipboard.app
