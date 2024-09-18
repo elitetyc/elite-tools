@@ -1,5 +1,8 @@
 <script setup>
 import { reactive, onMounted } from "vue";
+import { FolderOpenIcon } from "tdesign-icons-vue-next";
+const mainEvent = window.api.mainEvent
+
 
 const mainRemote = window.api.mainRemote;
 
@@ -16,6 +19,10 @@ onMounted(() => {
     formData.openAutoLaunch = isEnable;
   });
 });
+
+const openLogFile = ()=>{
+  window.electron.ipcRenderer.send(mainEvent.OPEN_LOG_FILE)
+}
 </script>
 
 <template>
@@ -26,6 +33,15 @@ onMounted(() => {
         <t-row style="width: 100%">
           <t-col :span="2" :offset="10">
             <t-switch v-model="formData.openAutoLaunch" size="large" @change="onOpenAutoLaunch" />
+          </t-col>
+        </t-row>
+      </t-form-item>
+      <t-form-item label="打开日志文件" >
+        <t-row style="width: 100%">
+          <t-col :span="2" :offset="10">
+            <t-button shape="circle" theme="primary">
+              <template #icon> <FolderOpenIcon @click="openLogFile" /></template>
+            </t-button>
           </t-col>
         </t-row>
       </t-form-item>

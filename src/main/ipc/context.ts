@@ -6,11 +6,13 @@ import { MainEvent, HistoryClipBoarEvent } from '@/type/context-type'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
 const log = require('electron-log');
+const { shell } = require("electron");
 
 
 // 获取当前用户主目录
 export class Context {
   public static logger = log
+  public static logFilePath = ''
   public static isMac = process.platform === 'darwin'
   public static isWin = process.platform === 'win32'
   public static isLinux = process.platform === 'linux'
@@ -23,7 +25,8 @@ export class Context {
     HOT_KEY_SETTING_CHANGE: 'hot_key_setting_change',
     MAXSIZE_OR_MINSIZE_WINDOW: 'max_window',
     MIN_WINDOW: 'min_window',
-    HIDE_WINDOW: 'hide_window'
+    HIDE_WINDOW: 'hide_window',
+    OPEN_LOG_FILE: 'open_log_file',
   }
 
   public static ipcMain = ipcMain
@@ -53,6 +56,10 @@ export class Context {
     x: 0,
     y: 0
   }
+
+  public static openLogFile () {
+    console.log("文件路径",this.logger.transports.file.getFile().path)
+  }
 }
 export function init() {
   const dirPath = path.join(Context.homeDirectory, Context.APP_HOME_DIR)
@@ -65,7 +72,6 @@ export function init() {
   } else {
     log.info(`应用文件存在了: ${dirPath}`)
   }
-
   // 监听是否需要最大化页面
   ipcMain.on(Context.mainEvent.MAXSIZE_OR_MINSIZE_WINDOW, (_, args) => {
     if (args) Context.mainWindow.maximize()
@@ -80,6 +86,16 @@ export function init() {
   ipcMain.on(Context.mainEvent.MIN_WINDOW, (_ , __, isHistoryClipboard) => {
     if (isHistoryClipboard) Context.historyClipBoardWindow.minimize()
     else Context.mainWindow.minimize()
+  })
+  ipcMain.on(Context.mainEvent.OPEN_LOG_FILE,() => {
+    const path = Context.logger.transports.file.getFile().path;
+    shell.openPath(path).then((error) => {
+      if (error) {
+        Context.logger.error("打开日志文件错误:", error);
+      } else {
+        Context.logger.info("打开日志文件成功,", path);
+      }
+    });
   })
 }
 

@@ -5,6 +5,7 @@ export interface MainEvent {
   MAXSIZE_OR_MINSIZE_WINDOW: string
   MIN_WINDOW: string
   HIDE_WINDOW: string
+  OPEN_LOG_FILE: string
 }
 
 export interface HistoryClipBoarEvent {

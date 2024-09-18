@@ -1,3 +1,4 @@
+
 const AutoLaunch = require("electron-auto-launch");
 const packageJson = require("../../package.json");
 
@@ -16,11 +17,11 @@ export default {
     autoLauncher.isEnabled().then((isEnabled) => {
       if (isEnabled && !enable) {
         // 目前是开启，但是要关闭
-        return autoLauncher.disable()
+        return autoLauncher.disable();
       } else if (!isEnabled && enable) {
         // 目前关闭，但是需要开启
-        return autoLauncher.enable()
+        return autoLauncher.enable();
       }
-    })
-  }
+    });
+  },
 };
