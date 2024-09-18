@@ -45,7 +45,7 @@ export function createWindow(): BrowserWindow {
     });
   });
 
-  require("@electron/remote/main").enable(mainWindow.webContents);
+  require('@electron/remote/main').enable(mainWindow.webContents)
 
   mainWindow.on("ready-to-show", () => {
     mainWindow.show();

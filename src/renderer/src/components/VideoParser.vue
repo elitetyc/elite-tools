@@ -8,7 +8,6 @@ import {
   RefreshIcon,
   ArrowRightIcon
 } from "tdesign-icons-vue-next";
-import { MessagePlugin } from "tdesign-vue-next";
 
 const videoPlatformList = VideoParserConfig.videoPlatformList;
 const jxPlatformList = VideoParserConfig.jxUrls;

@@ -38,6 +38,12 @@ const changePage = (path) => {
           </template>
           视频解析
         </t-menu-item>
+        <t-menu-item value="/main/moreSetting">
+          <template #icon>
+            <img src="@renderer/assets/images/about-icon.png" alt="" class="nav-icon" />
+          </template>
+          更多设置
+        </t-menu-item>
         <t-menu-item value="/main/about">
           <template #icon>
             <img src="@renderer/assets/images/about-icon.png" alt="" class="nav-icon" />

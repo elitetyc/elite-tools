@@ -4,6 +4,8 @@ import { HistoryClipboardType } from '@main/pages/history-clipboard/dao'
 import { HotKeyConfigType } from '@main/hotkey/dao'
 import { Context } from '@main/ipc/context'
 import keyMapMapping from '@main/hotkey/keymap'
+import mainRemote from "@main/ipc/main-remote";
+
 
 const remote = require('@electron/remote')
 
@@ -14,6 +16,7 @@ const api = {
   mainEvent: Context.mainEvent,
   historyClipBoarEvent: Context.historyClipBoarEvent,
   keyMapMapping,
+  mainRemote
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

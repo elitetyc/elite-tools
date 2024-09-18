@@ -34,7 +34,7 @@ export function init(): void {
   Context.ipcMain.on(Context.mainEvent.HOT_KEY_SETTING_CHANGE,(_, args)=>{
     const  hotKeyCOnfigInfo:HotKeyConfig= JSON.parse(args)
     hotKeyConfig.updateByTypeAndProps(hotKeyCOnfigInfo,(err)=>{
-      if (err) console.log(err)
+      if (err) Context.logger.error(err)
       // 重新发送数据
       sendAllConfigData()
       // 更新之后，重新注册快捷键
@@ -46,7 +46,7 @@ export function init(): void {
 
 function sendAllConfigData(){
   hotKeyConfig.queryAll((err,rows)=>{
-    if (err) console.log(err)
+    if (err) Context.logger.error(err)
     // 查询所有的数据，往前端发送一下
     Context.mainWindow.webContents.send(Context.mainEvent.CLIPBOARD_CONFIG_LIST,rows)
   })
@@ -57,11 +57,11 @@ function registerAllHotKey(){
   globalShortcut.unregisterAll()
   // 查询所有配置
   hotKeyConfig.queryAll((err,rows)=>{
-    if (err) console.log(err)
+    if (err) Context.logger.error(err)
     rows.forEach((row)=>{
       const filterRes =  HotkeyOptionList.filter(option=>option.type===row.type&&option.propName===row.propName)
       if (filterRes.length>0&&row.hotKey){
-        console.log("准备注册快捷键",row.hotKey)
+        Context.logger.info("准备注册快捷键",row.hotKey)
         globalShortcut.register(row.hotKey, filterRes[0].callback)
       }
     })

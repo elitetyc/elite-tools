@@ -5,9 +5,12 @@ import { Database } from 'sqlite3'
 import { MainEvent, HistoryClipBoarEvent } from '@/type/context-type'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
+const log = require('electron-log');
+
 
 // 获取当前用户主目录
 export class Context {
+  public static logger = log
   public static isMac = process.platform === 'darwin'
   public static isWin = process.platform === 'win32'
   public static isLinux = process.platform === 'linux'
@@ -58,9 +61,9 @@ export function init() {
   if (!fs.existsSync(dirPath)) {
     // 创建文件夹
     fs.mkdirSync(dirPath, { recursive: true })
-    console.log(`应用文件不存在，创建: ${dirPath}`)
+    log.info(`应用文件不存在，创建: ${dirPath}`)
   } else {
-    console.log(`应用文件存在了: ${dirPath}`)
+    log.info(`应用文件存在了: ${dirPath}`)
   }
 
   // 监听是否需要最大化页面

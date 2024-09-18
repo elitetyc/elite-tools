@@ -17,11 +17,11 @@ class DatabaseManager{
       ...globalShortcutConfig.initTable()
     ])
       .then(()=>{
-        console.log("数据库初始化，处理成功")
+        Context.logger.info("数据库初始化，处理成功")
         // 所有的都成功了，
         Context.dbInitSuccess = true
       }).catch((err)=>{
-        console.log(err)
+      Context.logger.error(err)
     })
   }
   public init(){
