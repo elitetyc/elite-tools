@@ -31,7 +31,7 @@
     "robotjs": "^0.6.0",
     "sqlite3": "^5.1.7",
     "tdesign-icons-vue-next": "^0.2.4",
-    "tdesign-vue-next": "^1.9.8",
+    "tdesign-vue-next": "^1.10.1",
     "vue-router": "^4.4.3"
   },
   "devDependencies": {

@@ -1,41 +1,45 @@
 <script setup>
-import { computed, onMounted, ref, watch, onUnmounted } from 'vue'
-import { FileAttachmentIcon, SearchIcon, TextboxIcon, ImageIcon } from 'tdesign-icons-vue-next'
-const HistoryClipboardType = window.api.HistoryClipboardType
-const historyClipboardEvent = window.api.historyClipBoarEvent
-const searchInput = ref()
-const historyList = ref([])
+import { computed, onMounted, ref, watch, onUnmounted } from "vue";
+import { FileAttachmentIcon, SearchIcon, TextboxIcon, ImageIcon } from "tdesign-icons-vue-next";
 
-const scrollList = ref(null)
+const HistoryClipboardType = window.api.HistoryClipboardType;
+const historyClipboardEvent = window.api.historyClipBoarEvent;
+const searchInput = ref();
+const historyList = ref([]);
+
+const scrollList = ref(null);
+const loading = ref(true);
 
 const searchInputChange = (value) => {
-  window.electron.ipcRenderer.send(historyClipboardEvent.CLIPBOARD_SEARCH_INPUT_CHANGE, value)
-}
+  loading.value = true;
+  window.electron.ipcRenderer.send(historyClipboardEvent.CLIPBOARD_SEARCH_INPUT_CHANGE, value);
+};
 
 const computedHistoryList = computed(() => {
-  return historyList.value
-})
+  return historyList.value;
+});
 const historyItemClick = (item) => {
-  window.electron.ipcRenderer.send(historyClipboardEvent.CLIPBOARD_ITEM_CLICK, JSON.stringify(item))
+  window.electron.ipcRenderer.send(historyClipboardEvent.CLIPBOARD_ITEM_CLICK, JSON.stringify(item));
   // 清空数据
-  searchInput.value = ''
-}
+  searchInput.value = "";
+};
 onMounted(() => {
   // 刚挂载的时候，就请求一次数据
-  searchInputChange('')
+  searchInputChange("");
   window.electron.ipcRenderer.on(historyClipboardEvent.HISTORY_CLIPBOARD_LIST, (event, data) => {
-    historyList.value = data
+    loading.value = false;
+    historyList.value = data;
     // 每次有最新的剪切板内容都滚动到最上面
     if (scrollList.value) {
-      scrollList.value.$el.scrollTop = 0
+      scrollList.value.$el.scrollTop = 0;
     }
-  })
-})
-watch(searchInput, searchInputChange)
+  });
+});
+watch(searchInput, searchInputChange);
 
 onUnmounted(() => {
-  window.electron.ipcRenderer.removeAllListeners()
-})
+  window.electron.ipcRenderer.removeAllListeners();
+});
 
 </script>
 
@@ -45,26 +49,38 @@ onUnmounted(() => {
       <SearchIcon :style="{ cursor: 'pointer' }" />
     </template>
   </t-input>
-
-  <t-list ref="scrollList" class="p-list" :split="true"  :scroll="{ type: 'virtual' }">
-    <t-popup v-for="(item) in computedHistoryList" placement="bottom">
+  <t-list ref="scrollList" class="p-list" :split="true" :scroll="{ type: 'virtual' }">
+    <div
+      v-if="computedHistoryList.length === 0"
+      style="
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <t-empty />
+    </div>
+    <t-popup v-for="(item, index) in computedHistoryList" v-else :key="index" placement="bottom">
       <t-list-item @click="historyItemClick(item)">
         <t-row style="width: 100%">
           <t-col :span="1">
             <TextboxIcon
+              v-if="item.type === HistoryClipboardType.text"
               size="30"
               style="color: #329bbf"
-              v-if="item.type === HistoryClipboardType.text"
             />
             <ImageIcon
+              v-if="item.type === HistoryClipboardType.img"
               size="30"
               style="color: #34ed70"
-              v-if="item.type === HistoryClipboardType.img"
             />
             <FileAttachmentIcon
+              v-if="item.type === HistoryClipboardType.file"
               size="30"
               style="color: #ed7c53"
-              v-if="item.type === HistoryClipboardType.file"
             />
           </t-col>
           <t-col :span="11" style="overflow: hidden; text-align: start; font-weight: bold">
@@ -73,7 +89,7 @@ onUnmounted(() => {
                 item.type === HistoryClipboardType.text || item.type === HistoryClipboardType.file
               "
               class="nowrap-with-ellipsis"
-              >{{ item.content }}</span
+            >{{ item.content }}</span
             >
             <t-image
               v-else-if="item.type === HistoryClipboardType.img"
@@ -96,6 +112,7 @@ onUnmounted(() => {
       </template>
     </t-popup>
   </t-list>
+  <t-loading :loading="loading" attach=".p-list"></t-loading>
 </template>
 
 <style lang="scss" scoped>
@@ -132,6 +149,10 @@ onUnmounted(() => {
 
 :deep(.t-input--focused) {
   @include focus;
+}
+
+:deep(.t-list__inner) {
+  height: 100%;
 }
 
 .p-list {
