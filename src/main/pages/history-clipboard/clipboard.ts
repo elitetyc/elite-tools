@@ -156,6 +156,8 @@ function listenFile() {
     if (Context.isMac) {
       filePath = filePath.replace("file://", "");
     }
+    // 转码，防止出现文件名包含特殊字符被转码，找不到文件的问题
+    filePath = decodeURIComponent(filePath)
     const md5 = Util.md5Encode(filePath);
     if (md5 !== lastClipboardInfoFileMd5) {
       const stats = fs.statSync(filePath);
