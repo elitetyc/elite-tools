@@ -1,4 +1,4 @@
-import { clipboard, nativeImage, dialog, app } from "electron";
+import { clipboard, nativeImage, dialog } from "electron";
 import { Context } from "../../ipc/context";
 import * as historyClipboard from "./dao";
 import Util from "../../util";
@@ -6,7 +6,6 @@ import { HistoryClipboard, HistoryClipboardType } from "./dao";
 import * as fs from "node:fs";
 import { RunResult } from "sqlite3";
 
-import robot from "robotjs";
 
 let lastClipboardInfoTxtMd5 = "";
 let lastClipboardInfoImgMd5 = "";
@@ -38,11 +37,6 @@ export function init() {
 
   // 监听点击某个item
   Context.ipcMain.on(Context.historyClipBoarEvent.CLIPBOARD_ITEM_CLICK, (_, input) => {
-    const { x, y } = robot.getMousePos();
-    Context.lastMousePosition = {
-      x: Number(x),
-      y: Number(y)
-    };
     const clipBoard: historyClipboard.HistoryClipboard = JSON.parse(input);
     // 更新时间，让其靠前
     historyClipboard.updateOne(clipBoard, (err) => {
@@ -65,17 +59,9 @@ export function init() {
     }
     if (!hasError) {
       // 关闭弹出
-      const { x: mouseX, y: mouseY } = Context.mouseClickPosition;
-      const { x: mouseLastX, y: mouseLastY } = Context.lastMousePosition;
-      Context.historyClipBoardWindow.close();
-      Context.isMac && app.hide();
-      if (Context.isWin) {
-        robot.moveMouse(mouseX, mouseY);
-        robot.mouseClick();
-        robot.moveMouse(mouseLastX, mouseLastY);
-      }
-      // 模拟粘贴
-      robot.keyTap("v", [Context.isMac ? "command" : "control"]);
+      Context.isClickCopy = true
+      Context.historyClipBoardWindow.hide();
+
     }
   });
 }

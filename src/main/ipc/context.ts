@@ -13,6 +13,7 @@ const { shell } = require("electron");
 export class Context {
   public static logger = log
   public static logFilePath = ''
+  public static isClickCopy = false
   public static isMac = process.platform === 'darwin'
   public static isWin = process.platform === 'win32'
   public static isLinux = process.platform === 'linux'
@@ -52,10 +53,6 @@ export class Context {
     y: 0
   }
 
-  public static lastMousePosition = {
-    x: 0,
-    y: 0
-  }
 
   public static openLogFile () {
     console.log("文件路径",this.logger.transports.file.getFile().path)

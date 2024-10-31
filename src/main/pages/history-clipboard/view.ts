@@ -29,15 +29,27 @@ export class HistoryClipboardManager {
       skipTransformProcessType: true
     });
 
-    window.on('ready-to-show', () => {
-      window.show()
-    })
+    // window.on('ready-to-show', () => {
+    //   window.show()
+    // })
 
     window.on('blur', () => {
-      if (!is.dev){
-        window.close()
-      }
+      Context.isClickCopy = false
+      window.hide()
     })
+
+    window.on('hide', () => {
+      if (Context.isClickCopy) {
+        const { x: mouseX, y: mouseY } = Context.mouseClickPosition;
+        robot.moveMouse(mouseX, mouseY);
+        robot.mouseClick();
+        // 模拟粘贴
+        robot.keyTap("v", [Context.isMac ? "command" : "control"]);
+      }
+
+    })
+
+
 
     // HMR for renderer base on electron-vite cli.
     // Load the remote URL for development or the local html file for production.
@@ -52,18 +64,20 @@ export class HistoryClipboardManager {
   }
 
   public static openHistoryClipBoardWindow(): void {
+    // 记录鼠标位置
+    const { x, y } = robot.getMousePos()
+    Context.mouseClickPosition = {
+      x: Number(x),
+      y: Number(y)
+    }
     if (
       !Context.historyClipBoardWindow ||
       (Context.historyClipBoardWindow && Context.historyClipBoardWindow.isDestroyed())
     ) {
-      HistoryClipboardManager.createWindow()
+      const window = HistoryClipboardManager.createWindow();
+      window.show()
     } else {
-      // 记录鼠标位置
-      const { x, y } = robot.getMousePos()
-      Context.mouseClickPosition = {
-        x: Number(x),
-        y: Number(y)
-      }
+
       Context.historyClipBoardWindow.show()
     }
   }
