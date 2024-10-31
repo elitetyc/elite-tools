@@ -33,11 +33,6 @@ export class HistoryClipboardManager {
     //   window.show()
     // })
 
-    window.on('blur', () => {
-      Context.isClickCopy = false
-      window.hide()
-    })
-
     window.on('hide', () => {
       if (Context.isClickCopy) {
         const { x: mouseX, y: mouseY } = Context.mouseClickPosition;
