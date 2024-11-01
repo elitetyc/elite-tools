@@ -2,7 +2,7 @@ import * as os from 'os'
 import * as path from 'node:path'
 import { BrowserWindow, ipcMain } from 'electron'
 import { Database } from 'sqlite3'
-import { MainEvent, HistoryClipBoarEvent } from '@/type/context-type'
+import { MainEvent, HistoryClipBoarEvent,OnePasswordEvent } from '@/type/context-type'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
 const log = require('electron-log');
@@ -13,7 +13,7 @@ const { shell } = require("electron");
 export class Context {
   public static logger = log
   public static logFilePath = ''
-  public static isClickCopy = false
+  public static isCopy = false
   public static isMac = process.platform === 'darwin'
   public static isWin = process.platform === 'win32'
   public static isLinux = process.platform === 'linux'
@@ -21,8 +21,8 @@ export class Context {
   // 主窗口弹窗
   public static mainWindow: BrowserWindow
   public static mainEvent: MainEvent = {
-    CLIPBOARD_CONFIG_LIST: 'clipboard_config_list',
-    GET_CLIPBOARD_CONFIG_LIST: 'get_clipboard_config_list',
+    HOT_KEY_CONFIG: 'clipboard_config_list',
+    GET_HOT_KEY_CONFIG: 'get_clipboard_config_list',
     HOT_KEY_SETTING_CHANGE: 'hot_key_setting_change',
     MAXSIZE_OR_MINSIZE_WINDOW: 'max_window',
     MIN_WINDOW: 'min_window',
@@ -43,6 +43,23 @@ export class Context {
     CLIPBOARD_ITEM_CLICK: 'clipboardItemClick'
   }
   public static CLIPBOARD_KEEP_HOUR = 24
+
+  // 密码
+  public static onePasswordWindow: BrowserWindow
+  public static onePasswordEvent: OnePasswordEvent = {
+    ALL_PASSWORD_GROUP: 'ALL_PASSWORD_GROUP',
+    GET_ALL_PASSWORD_GROUP: 'GET_ALL_PASSWORD_GROUP',
+    ALL_PASSWORD_ITEM: 'ALL_PASSWORD_ITEM',
+    GET_ALL_PASSWORD_ITEM: 'GET_ALL_PASSWORD_ITEM',
+    ITEM_COPY: 'ITEM_COPY',
+    ADD_PASSWORD_ITEM:'ADD_PASSWORD_ITEM',
+    UPDATE_PASSWORD_ITEM:'UPDATE_PASSWORD_ITEM',
+    DELETE_PASSWORD_ITEM:'DELETE_PASSWORD_ITEM',
+    ADD_PASSWORD_GROUP:'ADD_PASSWORD_GROUP',
+    UPDATE_PASSWORD_GROUP:'UPDATE_PASSWORD_GROUP',
+    DELETE_PASSWORD_GROUP:'DELETE_PASSWORD_GROUP',
+  }
+
 
   public static getDBPath() {
     return path.join(Context.homeDirectory, Context.APP_HOME_DIR, Context.APP_DB_NAME)

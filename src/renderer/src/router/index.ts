@@ -5,6 +5,8 @@ import HistoryClipboardSetting from "../components/HistoryClipboardSetting.vue";
 import VideoParser from "../components/VideoParser.vue";
 import About from "../components/About.vue";
 import MoreSetting from "../components/MoreSetting.vue";
+import OnePassword from "../pages/OnePassword.vue";
+import OnePasswordSetting from "../components/OnePasswordSetting.vue";
 const routes = [
   {
     path: '/main',
@@ -15,6 +17,10 @@ const routes = [
         path: 'historyClipboardSetting',
         name: 'HistoryClipboardSetting',
         component: HistoryClipboardSetting,
+      },{
+        path: 'onePasswordSetting',
+        name: 'OnePasswordSetting',
+        component: OnePasswordSetting,
       },{
         path: 'videoParser',
         name: 'VideoParser',
@@ -34,6 +40,11 @@ const routes = [
     path: '/historyClipboard',
     name: 'HistoryClipboard',
     component: HistoryClipboard
+  },
+  {
+    path: '/onePassword',
+    name: 'OnePassword',
+    component: OnePassword
   }
 ]
 

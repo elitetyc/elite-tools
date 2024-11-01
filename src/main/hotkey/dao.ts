@@ -3,6 +3,7 @@ import { RunResult, Statement } from "sqlite3";
 
 export enum HotKeyConfigType {
   HistoryClipboard =1,
+  OnePassword =2,
 }
 
 export class HotKeyConfig {
@@ -47,6 +48,16 @@ export function initTable():Promise<boolean>[] {
           resolve(true)
         }
       });
+    }),
+    new Promise<boolean>((resolve, reject)=>{
+      DatabaseManager.db.run(`insert OR IGNORE into hot_key_config values (2,${HotKeyConfigType.OnePassword},'openOnePasswordHotKey','Meta+Alt+P','Meta+Alt+P','打开onePassword')`,
+        (err) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(true)
+          }
+        });
     })
 
   ];

@@ -3,6 +3,7 @@ import * as hotKeyConfig from "./dao";
 import { HotKeyConfig, HotKeyConfigType } from "./dao";
 import { HistoryClipboardManager } from "../pages/history-clipboard/view";
 import { Context } from "../ipc/context";
+import { OnePasswordManager } from "@main/pages/one-password/view";
 
 
 class HotKeyOption{
@@ -20,6 +21,9 @@ const HotkeyOptionList:HotKeyOption[] = [
   // 打开剪切板
   new HotKeyOption(HotKeyConfigType.HistoryClipboard,"openHistoryHotkey",()=>{
     HistoryClipboardManager.openHistoryClipBoardWindow()
+  }),
+  new HotKeyOption(HotKeyConfigType.OnePassword,"openOnePasswordHotKey",()=>{
+    OnePasswordManager.openOnePasswordWindow()
   })
 ]
 
@@ -27,16 +31,16 @@ export function init(): void {
   registerAllHotKey()
 
   // 监听请求快捷键的消息
-  Context.ipcMain.on(Context.mainEvent.GET_CLIPBOARD_CONFIG_LIST, sendAllConfigData)
+  Context.ipcMain.on(Context.mainEvent.GET_HOT_KEY_CONFIG, sendAllConfigData)
 
 
   // 监听修改按键的消息
   Context.ipcMain.on(Context.mainEvent.HOT_KEY_SETTING_CHANGE,(_, args)=>{
-    const  hotKeyCOnfigInfo:HotKeyConfig= JSON.parse(args)
-    hotKeyConfig.updateByTypeAndProps(hotKeyCOnfigInfo,(err)=>{
+    const  hotKeyConfigInfo:HotKeyConfig= JSON.parse(args)
+    hotKeyConfig.updateByTypeAndProps(hotKeyConfigInfo,(err)=>{
       if (err) Context.logger.error(err)
       // 重新发送数据
-      sendAllConfigData()
+      sendAllConfigData(_,hotKeyConfigInfo.type)
       // 更新之后，重新注册快捷键
       registerAllHotKey()
     })
@@ -44,11 +48,12 @@ export function init(): void {
 }
 
 
-function sendAllConfigData(){
+function sendAllConfigData(_,args){
   hotKeyConfig.queryAll((err,rows)=>{
     if (err) Context.logger.error(err)
     // 查询所有的数据，往前端发送一下
-    Context.mainWindow.webContents.send(Context.mainEvent.CLIPBOARD_CONFIG_LIST,rows)
+    const hotKeyConfigs = rows.filter(it=>it.type===args);
+    Context.mainWindow.webContents.send(Context.mainEvent.HOT_KEY_CONFIG,hotKeyConfigs)
   })
 }
 

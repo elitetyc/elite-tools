@@ -16,7 +16,8 @@ const api = {
   mainEvent: Context.mainEvent,
   historyClipBoarEvent: Context.historyClipBoarEvent,
   keyMapMapping,
-  mainRemote
+  mainRemote,
+  onePasswordEvent: Context.onePasswordEvent,
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 export default defineConfig({
   main: {
@@ -31,7 +32,7 @@ export default defineConfig({
         '@': resolve(__dirname, 'src')
       }
     },
-    plugins: [vue()],
+    plugins: [vue(),vueJsx()],
     build: {
       rollupOptions: {
         external: ['electron', '@electron/remote'] // 将 Electron 和 @electron/remote 排除在外

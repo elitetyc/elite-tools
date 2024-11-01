@@ -16,6 +16,8 @@
       "@renderer/*": [
         "src/renderer/src/*"
       ]
-    }
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
   }
 }

@@ -3,12 +3,13 @@ import { is } from '@electron-toolkit/utils'
 import { BrowserWindow } from 'electron'
 import { Context } from '../../ipc/context'
 import robot from 'robotjs'
+const remote = require("@electron/remote/main");
 
-export class HistoryClipboardManager {
+export class OnePasswordManager {
   public static createWindow(): BrowserWindow {
     // Create the browser window.
     const window = new BrowserWindow({
-      width: 600,
+      width: 800,
       height: 600,
       show: false,
       titleBarStyle: 'hidden',
@@ -44,21 +45,20 @@ export class HistoryClipboardManager {
       }
     })
 
-
-
     // HMR for renderer base on electron-vite cli.
     // Load the remote URL for development or the local html file for production.
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-      window.loadURL(process.env['ELECTRON_RENDERER_URL'] + '#/historyClipboard')
+      window.loadURL(process.env['ELECTRON_RENDERER_URL'] + '#/onePassword')
     } else {
-      window.loadURL(`file://${join(__dirname, '../renderer/index.html#/historyClipboard')}`)
+      window.loadURL(`file://${join(__dirname, '../renderer/index.html#/onePassword')}`)
     }
 
-    Context.historyClipBoardWindow = window
+    Context.onePasswordWindow = window
+    remote.enable(window.webContents);
     return window
   }
 
-  public static openHistoryClipBoardWindow(): void {
+  public static openOnePasswordWindow(): void {
     // 记录鼠标位置
     const { x, y } = robot.getMousePos()
     Context.mouseClickPosition = {
@@ -66,14 +66,13 @@ export class HistoryClipboardManager {
       y: Number(y)
     }
     if (
-      !Context.historyClipBoardWindow ||
-      (Context.historyClipBoardWindow && Context.historyClipBoardWindow.isDestroyed())
+      !Context.onePasswordWindow ||
+      (Context.onePasswordWindow && Context.onePasswordWindow.isDestroyed())
     ) {
-      const window = HistoryClipboardManager.createWindow();
+      const window = OnePasswordManager.createWindow();
       window.show()
     } else {
-
-      Context.historyClipBoardWindow.show()
+      Context.onePasswordWindow.show()
     }
   }
 }

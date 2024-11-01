@@ -3,25 +3,26 @@ import { computed, onMounted, ref, watch, reactive, onUnmounted } from 'vue'
 import HotKeyInput from './HotKeyInput.vue'
 const HotKeyConfigType = window.api.HotKeyConfigType
 const mainEvent = window.api.mainEvent
+const remote = window.remote
+console.log(remote.app)
 const formData = reactive({
-  openHistoryHotkey: ''
+  openOnePasswordHotKey:''
 })
 
 const hotKeyConfig = ref([])
 
-const requestHotKeyConfig = () => {
+const requestOnePasswordConfig = () => {
   // 获取数据
-  window.electron.ipcRenderer.send(mainEvent.GET_HOT_KEY_CONFIG,HotKeyConfigType.HistoryClipboard)
+  window.electron.ipcRenderer.send(mainEvent.GET_HOT_KEY_CONFIG,HotKeyConfigType.OnePassword)
 }
 onMounted(() => {
-  requestHotKeyConfig()
+  requestOnePasswordConfig()
   window.electron.ipcRenderer.on(mainEvent.HOT_KEY_CONFIG, (event, data) => {
-    hotKeyConfig.value = data.filter((it) => it.type === HotKeyConfigType.HistoryClipboard)
+    hotKeyConfig.value = data.filter((it) => it.type === HotKeyConfigType.OnePassword)
     for (const hotKeyConfigElement of hotKeyConfig.value) {
       formData[hotKeyConfigElement.propName] = hotKeyConfigElement.hotKey
     }
-
-    console.log('formData.openHistoryHotkey', formData.openHistoryHotkey)
+    console.log('formData.openOnePasswordHotKey', formData.openHistoryHotkey)
   })
 })
 
@@ -34,7 +35,7 @@ const hotKeySettingChange = (value, propName) => {
   window.electron.ipcRenderer.send(
     mainEvent.HOT_KEY_SETTING_CHANGE,
     JSON.stringify({
-      type: HotKeyConfigType.HistoryClipboard,
+      type: HotKeyConfigType.OnePassword,
       propName,
       hotKey: value
     })
@@ -46,10 +47,10 @@ const hotKeySettingChange = (value, propName) => {
   <div class="title">功能</div>
   <div class="content">
     <t-form class="form" :data="formData" label-align="left" label-width="160px">
-      <t-form-item label="打开快捷键" name="openHistoryHotkey">
+      <t-form-item label="打开快捷键" name="openOnePasswordHotKey">
         <hot-key-input
-          v-model="formData.openHistoryHotkey"
-          @change="hotKeySettingChange($event, 'openHistoryHotkey')"
+          v-model="formData.openOnePasswordHotKey"
+          @change="hotKeySettingChange($event, 'openOnePasswordHotKey')"
         ></hot-key-input>
       </t-form-item>
     </t-form>

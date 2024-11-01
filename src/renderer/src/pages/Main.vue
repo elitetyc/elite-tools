@@ -30,7 +30,13 @@ const changePage = (path) => {
           <template #icon>
             <img src="@renderer/assets/images/setting-icon.png" alt="" class="nav-icon" />
           </template>
-          快捷键设置
+          剪切板历史设置
+        </t-menu-item>
+        <t-menu-item value="/main/onePasswordSetting">
+          <template #icon>
+            <img src="@renderer/assets/images/setting-icon.png" alt="" class="nav-icon" />
+          </template>
+          OnePassword设置
         </t-menu-item>
         <t-menu-item value="/main/videoParser">
           <template #icon>

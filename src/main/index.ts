@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import * as HotKey from "./hotkey/hotkey";
 import * as Clipboard from "./pages/history-clipboard/clipboard";
+import * as OnePassword from "./pages/one-password/one-password";
 import DatabaseManager from "./ipc/database";
 
 import * as Context from "./ipc/context";
@@ -11,7 +12,7 @@ import * as Context from "./ipc/context";
 import TrayMenu from "./components/tray-menu";
 
 // in the main process:
-require("@electron/remote/main").initialize();
+const remote = require("@electron/remote/main");
 
 // 全局变量初始化
 Context.init();
@@ -45,8 +46,6 @@ export function createWindow(): BrowserWindow {
     });
   });
 
-  require('@electron/remote/main').enable(mainWindow.webContents)
-
   mainWindow.on("ready-to-show", () => {
     mainWindow.show();
     // 只要主窗口展示，就设置dock栏目图标
@@ -71,6 +70,8 @@ export function createWindow(): BrowserWindow {
   Context.Context.mainWindow = mainWindow;
   Context.Context.isMac && app.dock.show();
   Context.Context.isMac && app.dock.setIcon(icon);
+  remote.initialize();
+  remote.enable(mainWindow.webContents);
   return mainWindow;
 }
 
@@ -102,6 +103,7 @@ app.whenReady().then(() => {
   Clipboard.init();
   // 初始化托盘
   TrayMenu.init();
+  OnePassword.init();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

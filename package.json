@@ -41,6 +41,8 @@
     "@rushstack/eslint-patch": "^1.10.3",
     "@types/node": "^20.14.8",
     "@vitejs/plugin-vue": "^5.0.5",
+    "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "@vue/babel-preset-jsx": "^1.4.0",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "electron": "^31.0.2",
@@ -53,6 +55,7 @@
     "sass": "^1.77.8",
     "typescript": "^5.5.2",
     "vite": "^5.3.1",
+    "vite-plugin-babel": "^1.2.0",
     "vue": "^3.4.30",
     "vue-tsc": "^2.0.22"
   }

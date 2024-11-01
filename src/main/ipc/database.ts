@@ -1,5 +1,7 @@
 import { Database } from "sqlite3";
 import * as historyClipboard from "../pages/history-clipboard/dao";
+import * as onePassword from "../pages/one-password/dao";
+import * as onePasswordItem from "../pages/one-password/item-dao";
 import { Context } from "./context";
 import * as globalShortcutConfig  from "../hotkey/dao";
 class DatabaseManager{
@@ -14,7 +16,9 @@ class DatabaseManager{
     // 历史剪切板
     Promise.all<boolean>([
       ...historyClipboard.initTable(),
-      ...globalShortcutConfig.initTable()
+      ...globalShortcutConfig.initTable(),
+      ...onePassword.initTable(),
+      ...onePasswordItem.initTable(),
     ])
       .then(()=>{
         Context.logger.info("数据库初始化，处理成功")
@@ -28,7 +32,6 @@ class DatabaseManager{
     this.connect()
     this.initTables()
   }
-
 
 }
 

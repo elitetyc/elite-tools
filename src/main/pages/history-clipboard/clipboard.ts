@@ -59,7 +59,7 @@ export function init() {
     }
     if (!hasError) {
       // 关闭弹出
-      Context.isClickCopy = true
+      Context.isCopy = true
       Context.historyClipBoardWindow.hide();
 
     }

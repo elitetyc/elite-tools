@@ -10,7 +10,7 @@ import HistoryClipboardPannel from '../components/HistoryClipboardPannel.vue'
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .card-bg {
   width: 100vw;
   height: 100vh;
