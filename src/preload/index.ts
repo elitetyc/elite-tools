@@ -5,6 +5,8 @@ import { HotKeyConfigType } from '@main/hotkey/dao'
 import { Context } from '@main/ipc/context'
 import keyMapMapping from '@main/hotkey/keymap'
 import mainRemote from "@main/ipc/main-remote";
+import { PasswordGroup } from "@main/pages/one-password/dao";
+import { PasswordGroupItem } from "@main/pages/one-password/item-dao";
 
 
 const remote = require('@electron/remote')
@@ -18,6 +20,8 @@ const api = {
   keyMapMapping,
   mainRemote,
   onePasswordEvent: Context.onePasswordEvent,
+  PasswordGroup,
+  PasswordGroupItem
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

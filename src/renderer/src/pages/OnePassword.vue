@@ -30,8 +30,9 @@ const addGroupBtn = () => <AddIcon style={{ color: "var(--td-brand-color)", curs
                                    onClick={addGroup} />;
 
 const nowActiveGroup = ref()
-const groupList = ref([])
-const groupItemList = ref([])
+const groupList = ref<{id:number,name:string}[]>([])
+const groupItemList = ref<{id:number,name:string,account:string
+  ,password:string,group_id:number}[]>([])
 const getAllGroup = () => {
   window.electron.ipcRenderer.send(onePasswordEvent.GET_ALL_PASSWORD_GROUP);
   window.electron.ipcRenderer.send(onePasswordEvent.GET_ALL_PASSWORD_ITEM);
