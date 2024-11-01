@@ -50,7 +50,7 @@ const showIcon = ref(false);
         <edit-icon v-if="showIcon" @click="handleClickChange" style="cursor: pointer"></edit-icon>
       </div>
       <t-input v-else ref="input" size="small" v-model="contentInput" style="width: 100%" @blur="handleInputEnter"
-               @enter="handleInputEnter" />
+               />
     </t-popup>
   </div>
 </template>

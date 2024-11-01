@@ -130,7 +130,7 @@ const deleteItem = (item)=>{
               新增
             </t-button>
           </t-row>
-          <t-list class="bg-transparent" style="margin-top: 10px">
+          <t-list class="bg-transparent" style="margin-top: 10px;height: 500px;overflow-y: scroll">
             <t-row style="width: 100%;"  :gutter="10" align="center">
               <t-col :span="4"  align="middle">
                 描述
